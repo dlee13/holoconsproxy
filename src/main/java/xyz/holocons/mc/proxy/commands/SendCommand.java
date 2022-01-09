@@ -1,4 +1,4 @@
-package xyz.holocons.mc.holoconsproxy.commands;
+package xyz.holocons.mc.proxy.commands;
 
 import com.velocitypowered.api.command.SimpleCommand;
 import com.velocitypowered.api.proxy.ConsoleCommandSource;
@@ -18,8 +18,8 @@ public class SendCommand implements SimpleCommand {
             return;
         }
 
-        proxy.getServer(invocation.arguments()[1]).ifPresent(target -> proxy.getPlayer(invocation.arguments()[0])
-                .ifPresent(player -> player.createConnectionRequest(target).fireAndForget()));
+        proxy.getPlayer(invocation.arguments()[0]).ifPresent(player -> proxy.getServer(invocation.arguments()[1])
+                .ifPresent(targetServer -> player.createConnectionRequest(targetServer).fireAndForget()));
     }
 
     @Override

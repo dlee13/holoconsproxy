@@ -1,4 +1,4 @@
-package xyz.holocons.mc.holoconsproxy;
+package xyz.holocons.mc.proxy;
 
 import com.google.common.io.ByteArrayDataOutput;
 import com.google.common.io.ByteStreams;
@@ -15,7 +15,7 @@ import com.velocitypowered.api.proxy.messages.MinecraftChannelIdentifier;
 import com.velocitypowered.api.proxy.server.RegisteredServer;
 import java.util.Optional;
 import org.slf4j.Logger;
-import xyz.holocons.mc.holoconsproxy.commands.SendCommand;
+import xyz.holocons.mc.proxy.commands.SendCommand;
 
 @Plugin(id = "holoconsproxy", name = "HoloCons Proxy", version = "1.0-SNAPSHOT",
         url = "https://holocons.xyz", authors = { "dlee13" })
