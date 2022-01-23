@@ -4,11 +4,11 @@ import com.velocitypowered.api.command.SimpleCommand;
 import com.velocitypowered.api.proxy.ConsoleCommandSource;
 import com.velocitypowered.api.proxy.ProxyServer;
 
-public class SendCommand implements SimpleCommand {
+public final class SendCommand implements SimpleCommand {
 
     private final ProxyServer proxy;
 
-    public SendCommand(ProxyServer proxy) {
+    public SendCommand(final ProxyServer proxy) {
         this.proxy = proxy;
     }
 
