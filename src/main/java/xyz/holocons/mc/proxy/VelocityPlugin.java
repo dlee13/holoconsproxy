@@ -9,6 +9,7 @@ import com.velocitypowered.api.plugin.Plugin;
 import com.velocitypowered.api.proxy.ProxyServer;
 import com.velocitypowered.api.proxy.messages.MinecraftChannelIdentifier;
 import org.slf4j.Logger;
+import xyz.holocons.mc.proxy.commands.BroadcastCommand;
 import xyz.holocons.mc.proxy.commands.SendCommand;
 
 @Plugin(id = "holoconsproxy", name = "HoloCons Proxy", version = "1.0-SNAPSHOT",
@@ -29,6 +30,7 @@ public final class VelocityPlugin {
     @Subscribe
     public void onProxyInitialize(ProxyInitializeEvent event) {
         final var commandManager = proxy.getCommandManager();
+        commandManager.register("broadcast", new BroadcastCommand(proxy));
         commandManager.register("send", new SendCommand(proxy));
         logger.info("Registered commands");
     }
