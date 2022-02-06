@@ -5,7 +5,7 @@ import com.velocitypowered.api.proxy.ConsoleCommandSource;
 import com.velocitypowered.api.proxy.ProxyServer;
 import net.kyori.adventure.audience.MessageType;
 import net.kyori.adventure.text.Component;
-import net.kyori.adventure.text.format.TextColor;
+import net.kyori.adventure.text.format.NamedTextColor;
 
 public final class BroadcastCommand implements RawCommand {
 
@@ -17,10 +17,10 @@ public final class BroadcastCommand implements RawCommand {
 
     @Override
     public void execute(final Invocation invocation) {
-        final var message = Component.text('[', TextColor.color(0xFFFF55))
-                .append(Component.text("Broadcast", TextColor.color(0xAA0000)))
-                .append(Component.text("] ", TextColor.color(0xFFFF55)))
-                .append(Component.text(invocation.arguments(), TextColor.color(0x00AA00)));
+        final var message = Component.text('[', NamedTextColor.YELLOW)
+                .append(Component.text("Broadcast", NamedTextColor.DARK_RED))
+                .append(Component.text("] ", NamedTextColor.YELLOW))
+                .append(Component.text(invocation.arguments(), NamedTextColor.DARK_GREEN));
 
         proxy.getAllPlayers().forEach(player -> player.sendMessage(message, MessageType.SYSTEM));
     }
