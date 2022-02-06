@@ -52,7 +52,6 @@ public final class VelocityPlugin {
             for (var server : proxy.getAllServers()) {
                 if (!server.getPlayersConnected().isEmpty() || server == previousServer) {
                     server.sendPluginMessage(CMIB_CHANNEL, out.toByteArray());
-                    logger.info(String.format("Sent CMIServerSwitchEvent to %s", server.getServerInfo().getName()));
                 }
             }
         }
