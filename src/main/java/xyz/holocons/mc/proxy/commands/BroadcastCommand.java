@@ -17,10 +17,12 @@ public final class BroadcastCommand implements RawCommand {
 
     @Override
     public void execute(final Invocation invocation) {
-        final var message = Component.text('[', NamedTextColor.YELLOW)
+        final var message = Component.text()
+                .append(Component.text('[', NamedTextColor.YELLOW))
                 .append(Component.text("Broadcast", NamedTextColor.DARK_RED))
                 .append(Component.text("] ", NamedTextColor.YELLOW))
-                .append(Component.text(invocation.arguments(), NamedTextColor.DARK_GREEN));
+                .append(Component.text(invocation.arguments(), NamedTextColor.DARK_GREEN))
+                .build();
 
         proxy.getAllPlayers().forEach(player -> player.sendMessage(message, MessageType.SYSTEM));
     }
