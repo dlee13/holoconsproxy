@@ -13,6 +13,7 @@ import com.velocitypowered.api.proxy.messages.MinecraftChannelIdentifier;
 
 import xyz.holocons.mc.proxy.commands.BroadcastCommand;
 import xyz.holocons.mc.proxy.commands.ConnectCommand;
+import xyz.holocons.mc.proxy.commands.PurgeLogsCommand;
 
 @Plugin(id = "holoconsproxy", name = "HoloCons Proxy", version = "1.0-SNAPSHOT",
         url = "https://holocons.xyz", authors = { "dlee13" })
@@ -34,6 +35,7 @@ public final class VelocityPlugin {
         final var commandManager = proxy.getCommandManager();
         commandManager.register("broadcast", new BroadcastCommand(proxy));
         commandManager.register("connect", new ConnectCommand(proxy));
+        commandManager.register("purgelogs", new PurgeLogsCommand(logger));
         logger.info("Registered commands");
     }
 
