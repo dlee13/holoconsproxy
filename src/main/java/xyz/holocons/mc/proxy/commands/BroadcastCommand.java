@@ -3,7 +3,6 @@ package xyz.holocons.mc.proxy.commands;
 import com.velocitypowered.api.command.RawCommand;
 import com.velocitypowered.api.proxy.ConsoleCommandSource;
 import com.velocitypowered.api.proxy.ProxyServer;
-import net.kyori.adventure.audience.MessageType;
 import net.kyori.adventure.text.minimessage.MiniMessage;
 
 public final class BroadcastCommand implements RawCommand {
@@ -19,8 +18,7 @@ public final class BroadcastCommand implements RawCommand {
     @Override
     public void execute(final Invocation invocation) {
         final var message = MiniMessage.miniMessage().deserialize(PREFIX + invocation.arguments());
-
-        proxy.getAllPlayers().forEach(player -> player.sendMessage(message, MessageType.SYSTEM));
+        proxy.sendMessage(message);
     }
 
     @Override
