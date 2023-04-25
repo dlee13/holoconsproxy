@@ -3,6 +3,7 @@ package xyz.holocons.mc.proxy.commands;
 import com.velocitypowered.api.command.RawCommand;
 import com.velocitypowered.api.proxy.ConsoleCommandSource;
 import com.velocitypowered.api.proxy.ProxyServer;
+
 import net.kyori.adventure.text.minimessage.MiniMessage;
 
 public final class BroadcastCommand implements RawCommand {

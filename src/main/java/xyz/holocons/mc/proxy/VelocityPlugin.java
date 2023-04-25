@@ -1,5 +1,7 @@
 package xyz.holocons.mc.proxy;
 
+import org.slf4j.Logger;
+
 import com.google.common.io.ByteStreams;
 import com.google.inject.Inject;
 import com.velocitypowered.api.event.Subscribe;
@@ -8,7 +10,7 @@ import com.velocitypowered.api.event.proxy.ProxyInitializeEvent;
 import com.velocitypowered.api.plugin.Plugin;
 import com.velocitypowered.api.proxy.ProxyServer;
 import com.velocitypowered.api.proxy.messages.MinecraftChannelIdentifier;
-import org.slf4j.Logger;
+
 import xyz.holocons.mc.proxy.commands.BroadcastCommand;
 import xyz.holocons.mc.proxy.commands.ConnectCommand;
 
