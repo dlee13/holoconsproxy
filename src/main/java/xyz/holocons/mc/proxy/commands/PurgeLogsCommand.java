@@ -1,14 +1,13 @@
 package xyz.holocons.mc.proxy.commands;
 
+import java.io.IOException;
+import java.nio.file.DirectoryStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.attribute.BasicFileAttributes;
 import java.nio.file.attribute.FileTime;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
-import java.util.Collections;
-import java.util.List;
-import java.util.regex.Pattern;
 
 import org.slf4j.Logger;
 
@@ -25,23 +24,30 @@ public final class PurgeLogsCommand implements SimpleCommand {
 
     @Override
     public void execute(final Invocation invocation) {
-        final var logNamePattern = Pattern.compile("^\\d{4}-\\d{2}-\\d{2}-\\d\\.log\\.gz$");
+        final var directory = Path.of("logs");
+        final var matcher = directory.getFileSystem().getPathMatcher("regex:^\\d{4}-\\d{2}-\\d{2}-\\d+\\.log\\.gz$");
+        final var filter = new DirectoryStream.Filter<Path>() {
+
+            @Override
+            public boolean accept(final Path entry) throws IOException {
+                return matcher.matches(entry.getFileName());
+            }
+        };
 
         var deleted = 0;
-        try (var directoryStream = Files.newDirectoryStream(Path.of("logs"))) {
+        try (var directoryStream = Files.newDirectoryStream(directory, filter)) {
             final var daysOld = Integer.parseInt(invocation.arguments()[0]);
-            final var maxKeptTime = FileTime.from(Instant.now().minus(daysOld, ChronoUnit.DAYS));
+            final var staleTime = FileTime.from(Instant.now().minus(daysOld, ChronoUnit.DAYS));
 
-            for (var logPath : directoryStream) {
-                if (logNamePattern.matcher(logPath.getFileName().toString()).matches()
-                        && maxKeptTime.compareTo(PurgeLogsCommand.accessedTime(logPath)) > 0) {
-                    logPath.toFile().delete();
+            for (var path : directoryStream) {
+                if (PurgeLogsCommand.isFileStale(path, staleTime)) {
+                    path.toFile().delete();
                     deleted++;
                 }
             }
         } catch (Exception e) {
         }
-        logger.info("Deleted {} old log files", deleted);
+        logger.info("Deleted {} stale log files", deleted);
     }
 
     @Override
@@ -49,9 +55,8 @@ public final class PurgeLogsCommand implements SimpleCommand {
         return invocation.source() instanceof ConsoleCommandSource;
     }
 
-    private static FileTime accessedTime(final Path path) throws Exception {
+    private static boolean isFileStale(final Path path, final FileTime staleTime) throws Exception {
         final var attributes = Files.readAttributes(path, BasicFileAttributes.class);
-        return Collections
-                .max(List.of(attributes.lastAccessTime(), attributes.lastModifiedTime(), attributes.creationTime()));
+        return staleTime.compareTo(attributes.lastAccessTime()) > 0;
     }
 }
