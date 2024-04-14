@@ -57,6 +57,6 @@ public final class PurgeLogsCommand implements SimpleCommand {
 
     private static boolean isFileStale(final Path path, final FileTime staleTime) throws Exception {
         final var attributes = Files.readAttributes(path, BasicFileAttributes.class);
-        return staleTime.compareTo(attributes.lastAccessTime()) > 0;
+        return staleTime.compareTo(attributes.lastModifiedTime()) > 0;
     }
 }
